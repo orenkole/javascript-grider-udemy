@@ -1,5 +1,18 @@
 // 6146d12e
-console.log("hello time");
+const input = document.querySelector("input");
+
+const debounce = (func, delay = 500) => {
+  let timeoutId;
+  return (...args) => {
+    if(timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func.apply(null, args);
+    }, delay);
+  }
+}
+
 const fetchData = async (searchTerm) => {
   const response = await axios.get("http://www.omdbapi.com/", {
     params: {
@@ -10,16 +23,8 @@ const fetchData = async (searchTerm) => {
   console.log(response.data);
 }
 
-let timeoutId;
 onInput = (event) => {
-  if(timeoutId) {
-    console.log(timeoutId);
-    clearTimeout(timeoutId);
-  }
-  timeoutId = setTimeout(() => {
-    fetchData(event.target.value)
-  }, 2000);
+  fetchData(event.target.value)
 }
 
-const input = document.querySelector("input");
-input.addEventListener("input", onInput)
+input.addEventListener("input", debounce(onInput, 500))
