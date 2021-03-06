@@ -8,12 +8,15 @@ const fetchData = async (searchTerm) => {
       s: searchTerm
     }
   })
-  return response;
+  if(response.data.Error) {
+    return [];
+  }
+  return response.data.Search;
 }
 
 onInput = async (event) => {
   const movies = await fetchData(event.target.value);
-  for(let movie of movies.data.Search) {
+  for(let movie of movies) {
     const div = document.createElement("div")
     div.innerHTML = `
       <img src="${movie.Poster}" />
