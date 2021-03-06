@@ -8,11 +8,19 @@ const fetchData = async (searchTerm) => {
       s: searchTerm
     }
   })
-  console.log(response.data);
+  return response;
 }
 
-onInput = (event) => {
-  fetchData(event.target.value)
+onInput = async (event) => {
+  const movies = await fetchData(event.target.value);
+  for(let movie of movies.data.Search) {
+    const div = document.createElement("div")
+    div.innerHTML = `
+      <img src="${movie.Poster}" />
+      <h1>${movie.Title}</h1>
+    `;
+    document.querySelector("#target").appendChild(div);
+  }
 }
 
-input.addEventListener("input", debounce(onInput, 500))
+input.addEventListener("input", debounce(onInput, 1000))
