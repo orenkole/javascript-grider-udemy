@@ -1,4 +1,4 @@
-const createAutoComplete = ({root, renderOption}) => {
+const createAutoComplete = ({root, renderOption, onOptionSelect}) => {
   // const root = document.querySelector(".autocomplete");
   root.innerHTML = `
     <label for=""><b>Search For a Movie</b></label>
@@ -29,7 +29,7 @@ const createAutoComplete = ({root, renderOption}) => {
         // update input and close dropdown
         dropdown.classList.remove("is-active");
         input.value = movie.Title;
-        onMovieSelect(movie);
+        onOptionSelect(movie);
       })
       resultsWrapper.append(option);
     }
